@@ -1,0 +1,26 @@
+<div class="h-screen flex flex-col">
+  <div class="py-4 px-4 flex items-center justify-between border">
+    <button mat-icon-button (click)="isMenuOpen = !isMenuOpen">
+      <mat-icon>{{ isMenuOpen ? "menu_open" : "menu" }}</mat-icon>
+    </button>
+    <div class="w-12 h-12 bg-indigo-600 rounded-full shadow"></div>
+  </div>
+  <div class="h-full flex relative">
+    <div
+      class="border border-t-0 absolute inset-y-0 transition-all"
+      [ngClass]="[isMenuOpen ? 'left-0' : '-left-full']"
+    >
+      <ul class="flex flex-col">
+        <li>
+          <a
+            [routerLink]="['/user/bob']"
+            class="px-4 py-2 hover:bg-gray-200 flex items-center gap-2 font-medium"
+          >
+            <mat-icon>home</mat-icon>
+            <div>Inicio</div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
