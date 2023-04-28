@@ -6,21 +6,36 @@
     <div class="w-12 h-12 bg-indigo-600 rounded-full shadow"></div>
   </div>
   <div class="h-full flex relative">
-    <div
-      class="border border-t-0 absolute inset-y-0 transition-all"
-      [ngClass]="[isMenuOpen ? 'left-0' : '-left-full']"
-    >
+    <div class="border border-t-0">
       <ul class="flex flex-col">
-        <li>
+        <li *ngFor="let route of routes">
           <a
-            [routerLink]="['/user/bob']"
-            class="px-4 py-2 hover:bg-gray-200 flex items-center gap-2 font-medium"
+            [routerLink]="[route.path]"
+            class="px-7 py-3 hover:bg-gray-200 flex items-center gap-2 font-medium"
           >
-            <mat-icon>home</mat-icon>
-            <div>Inicio</div>
+            <mat-icon>{{ route.icon }}</mat-icon>
+            <div *ngIf="isMenuOpen" class="whitespace-nowrap">
+              {{ route.name }}
+            </div>
           </a>
         </li>
       </ul>
+    </div>
+    <div class="h-full w-full px-4 pt-8">
+      <div class="flex items-center gap-2 py-2">
+        <button mat-button (click)="genereteQrCode()">Generar QR</button>
+        <button mat-icon-button>
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </div>
+      <div
+        class="border rounded-lg p-2 w-56 h-56 items-center justify-center flex"
+      >
+        <mat-spinner *ngIf="!qrImageData" class="w-full"></mat-spinner>
+        <div *ngIf="qrImageData" class="w-full h-full">
+          <img [src]="qrImageData"  class="w-full h-full" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
