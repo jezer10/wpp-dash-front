@@ -3,7 +3,21 @@
     <button mat-icon-button (click)="isMenuOpen = !isMenuOpen">
       <mat-icon>{{ isMenuOpen ? "menu_open" : "menu" }}</mat-icon>
     </button>
-    <div class="w-12 h-12 bg-indigo-600 rounded-full shadow"></div>
+    <div>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Perfil</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
   <div class="h-full flex relative">
     <div class="border border-t-0">
@@ -27,14 +41,9 @@
         <button mat-icon-button>
           <mat-icon>visibility</mat-icon>
         </button>
-      </div>
-      <div
-        class="border rounded-lg p-2 w-56 h-56 items-center justify-center flex"
-      >
-        <mat-spinner *ngIf="!qrImageData" class="w-full"></mat-spinner>
-        <div *ngIf="qrImageData" class="w-full h-full">
-          <img [src]="qrImageData"  class="w-full h-full" />
-        </div>
+        <mat-form-field>
+          <input type="text" matInput [(ngModel)]="dataToParse" />
+        </mat-form-field>
       </div>
     </div>
   </div>

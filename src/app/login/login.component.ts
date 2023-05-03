@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from './auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,30 +23,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    const isAuthTrue = this.authService.login(this.loginForm.value);
-    console.log(isAuthTrue)
-    if (isAuthTrue) {
-      this.router.navigate(['/']);
-    } else {
-      this.snackbar.open("Credenciales Incorrectas","",{
-        duration:3000
-      })
-    }
-  }
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
-  constructor(private http: HttpClient) {}
-  private user = {
-    username: 'jezerrazuri',
-    password: 'Jafetito1',
-  };
-  login(user: any) {
-    return (
-      this.user.username == user.username && this.user.password == user.password
-    );
+    this.authService.testAuth(this.loginForm.value).subscribe(({ token }) => {
+      if (token) {
+        this.router.navigate(['/']);
+        this.snackbar.open('Se inicio Sesión Correctamente', '', {
+          duration: 3000,
+        });
+      } else {
+        this.snackbar.open('Credenciales Incorrectas', '', {
+          duration: 3000,
+        });
+      }
+    });
   }
 }

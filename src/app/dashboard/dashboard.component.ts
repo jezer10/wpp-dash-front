@@ -1,6 +1,7 @@
-import * as QRCode from 'qrcode';
-
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../login/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
   isMenuOpen: boolean = false;
   qrImageData: string = '';
-  constructor() {}
+  dataToParse: string = '';
   routes = [
     {
       name: 'Inicio',
@@ -22,12 +23,18 @@ export class DashboardComponent implements OnInit {
       icon: 'phone',
     },
   ];
+  constructor(private authService: AuthService, private matDialog: MatDialog) {}
+
   ngOnInit(): void {}
 
   genereteQrCode() {
-    QRCode.toDataURL('asdfasf', (err, url) => {
-      if (err) console.log('error generating url');
-      this.qrImageData = url;
+    this.matDialog.open(QrModalComponent, {
+      data: {
+        imageData: this.dataToParse,
+      },
     });
+  }
+  logout() {
+    return this.authService.logout();
   }
 }
