@@ -23,8 +23,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.authService.testAuth(this.loginForm.value).subscribe(({ token }) => {
-      if (token) {
+    const { username, password } = this.loginForm.value;
+    this.authService.authUser(username, password).subscribe((isLogged) => {
+      if (isLogged) {
         this.router.navigate(['/']);
         this.snackbar.open('Se inicio Sesión Correctamente', '', {
           duration: 3000,
