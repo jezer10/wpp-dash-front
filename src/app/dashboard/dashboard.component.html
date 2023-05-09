@@ -37,11 +37,11 @@
     </div>
     <div class="h-full w-full px-4 pt-8">
       <div class="flex items-center gap-2 py-2">
-        <button mat-button (click)="genereteQrCode()">Generar QR</button>
-        <button mat-icon-button>
+        <button mat-button (click)="generateQrCode()">Generar QR</button>
+        <button mat-icon-button *ngIf="this.generatedToken" (click)="showToken()">
           <mat-icon>visibility</mat-icon>
         </button>
-        <mat-form-field>
+        <mat-form-field  *ngIf="this.generatedToken" >
           <input type="text" matInput [(ngModel)]="dataToParse" />
         </mat-form-field>
       </div>

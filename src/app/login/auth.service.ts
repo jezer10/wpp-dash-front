@@ -75,6 +75,32 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+  getTokenPayload() {
+    const token = this.getToken();
+    let payload;
+    if (token) {
+      const { user } = JSON.parse(atob(token.split('.')[1]));
+      payload = user;
+    }
+    return payload ?? {};
+  }
+
+  getQrToken(): Observable<any> {
+    const { id } = this.getTokenPayload();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return this.http.post<any>(
+      `${this.baseUrl}/Login`,
+      {
+        userId: id,
+      },
+      {
+        headers,
+      }
+    );
+  }
+
   logout() {
     this.setToken();
     this.router.navigate(['/login']);
