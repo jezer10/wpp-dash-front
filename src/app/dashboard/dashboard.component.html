@@ -19,8 +19,8 @@
       </mat-menu>
     </div>
   </div>
-  <div class="h-full flex relative">
-    <div class="border border-t-0">
+  <div class="h-full w-full flex relative">
+    <div class="border border-t-0 flex-none">
       <ul class="flex flex-col">
         <li *ngFor="let route of routes">
           <a
@@ -35,15 +35,57 @@
         </li>
       </ul>
     </div>
-    <div class="h-full w-full px-4 pt-8">
-      <div class="flex items-center gap-2 py-2">
-        <button mat-button (click)="generateQrCode()">Generar QR</button>
-        <button mat-icon-button *ngIf="this.generatedToken" (click)="showToken()">
-          <mat-icon>visibility</mat-icon>
-        </button>
-        <mat-form-field  *ngIf="this.generatedToken" >
-          <input type="text" matInput [(ngModel)]="dataToParse" />
-        </mat-form-field>
+    <div class="h-full overflow-auto px-4 pt-8">
+      <div class="flex flex-col">
+        <div class="flex items-center gap-2 py-2">
+          <button mat-button (click)="generateQrCode()">Generar QR</button>
+          <button
+            mat-icon-button
+            *ngIf="this.generatedToken"
+            (click)="showToken()"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <mat-form-field *ngIf="this.generatedToken">
+            <input type="text" matInput [(ngModel)]="dataToParse" />
+          </mat-form-field>
+        </div>
+        <div class=" ">
+          <table class="">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Expira</th>
+                <th>Fecha de expiración</th>
+                <th>Numero Mensajes</th>
+                <th>Token</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let token of tokens; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ token.nombreUsuario }}</td>
+                <td>
+                  <span
+                    class="text-white"
+                    [ngClass]="
+                      token.tiempoIlimitado ? 'bg-red-500' : 'bg-green-500'
+                    "
+                    >{{ token.tiempoIlimitado ? "No" : "Si" }}</span
+                  >
+                </td>
+
+                <td>{{ token.tiempoExpiracion | date: "dd/MM/yyyy" }}</td>
+                <td>{{ token.numeroMensajes }}</td>
+                <td class="w-12 truncate">{{ token.token }}</td>
+
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

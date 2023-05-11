@@ -1,5 +1,37 @@
 <mat-card>
   <mat-card-content>
+    <form
+      [formGroup]="qrGenerationForm"
+      (ngSubmit)="submitForm()"
+      class="flex flex-col"
+    >
+      <mat-form-field>
+        <mat-label>Nombre QR</mat-label>
+        <input matInput type="text" formControlName="nombreToken" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Numero de Mensajes Limite</mat-label>
+        <input matInput type="number" formControlName="numeroMensajes" />
+      </mat-form-field>
+      <mat-form-field *ngIf="!qrGenerationForm.value.tiempoIlimitado">
+        <mat-label>Fecha Limite</mat-label>
+        <input
+          matInput
+          formControlName="tiempoExpiracion"
+          [matDatepicker]="picker"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-slide-toggle formControlName="tiempoIlimitado">Limitar Tiempo de Expiración</mat-slide-toggle>
+      <button mat-button [disabled]="qrGenerationForm.invalid" type="submit">
+        Generar Qr
+      </button>
+    </form>
     <div
       class="border rounded-lg p-2 w-56 h-56 items-center justify-center flex"
     >

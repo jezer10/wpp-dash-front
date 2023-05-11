@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   qrImageData: string = '';
   dataToParse: string = '';
   generatedToken: string = '';
+  tokens: any = [];
   routes = [
     {
       name: 'Inicio',
@@ -32,7 +33,18 @@ export class DashboardComponent implements OnInit {
     private _snackbar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.listTokens().subscribe(
+      ({
+        responseExSave: {
+          data: { 0: tokens },
+        },
+      }) => {
+        console.log(tokens);
+        this.tokens = tokens ?? [];
+      }
+    );
+  }
 
   // genereteQrCode() {
   //   this.authService.getQrToken().subscribe((data) => {

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as QRCode from 'qrcode';
@@ -15,7 +16,12 @@ interface DialogData {
 })
 export class QrModalComponent implements OnInit {
   qrImageData: string = '';
-
+  public qrGenerationForm = new FormGroup({
+    nombreToken: new FormControl('', [Validators.required]),
+    tiempoIlimitado: new FormControl(false, [Validators.required]),
+    tiempoExpiracion: new FormControl(new Date(), [Validators.required]),
+    numeroMensajes: new FormControl(null, [Validators.required]),
+  });
   constructor(
     private authService: AuthService,
     private dialogRef: MatDialogRef<QrModalComponent>,
@@ -25,8 +31,38 @@ export class QrModalComponent implements OnInit {
   ngOnInit(): void {
     this.connectSocket(this.dialogRef);
   }
+
   closeDialog(data: any = {}) {
     this.dialogRef.close(data);
+  }
+  submitForm() {
+    console.log('hola como estás');
+    if (this.qrGenerationForm.valid) {
+      const { nombreToken, numeroMensajes, tiempoExpiracion, tiempoIlimitado } =
+        this.qrGenerationForm.value;
+      this.authService
+        .getNewQrToken(
+          nombreToken?.trim().toLowerCase().replaceAll(' ', '_') ?? '',
+          tiempoIlimitado ?? false,
+          tiempoExpiracion ?? new Date(),
+          numeroMensajes ?? 0
+        )
+        .subscribe(({ responseExSave: { codigoQr, error } }) => {
+          if (error) {
+            this.qrGenerationForm.patchValue({
+              nombreToken: '',
+            });
+            this._snackbar.open('Pruebe con un nombre distinto');
+            return;
+          }
+          if (codigoQr) {
+            QRCode.toDataURL(codigoQr, (err, url) => {
+              if (err) console.log('error generating url');
+              this.qrImageData = url;
+            });
+          }
+        });
+    }
   }
   getQrCode() {
     this.qrImageData = '';
@@ -43,6 +79,7 @@ export class QrModalComponent implements OnInit {
       }
     });
   }
+
   connectSocket(dialogRef: MatDialogRef<QrModalComponent>) {
     const { id } = this.authService.getTokenPayload();
     const message = {
@@ -55,7 +92,7 @@ export class QrModalComponent implements OnInit {
     // Emitir un evento para unirte a una sala privada
     socket.addEventListener('open', (event) => {
       console.log(event);
-      this.getQrCode();
+      // this.getQrCode();
     });
 
     socket.addEventListener('message', function (event) {

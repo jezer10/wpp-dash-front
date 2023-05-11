@@ -62,6 +62,35 @@ export class AuthService {
       status: false,
     });
   }
+  getNewQrToken(
+    nombreToken: string,
+    tiempoIlimitado: boolean,
+    tiempoExpiracion: Date,
+    numeroMensajes: number
+  ) {
+    return this.http.post<any>(
+      `${this.baseUrl}/Login`,
+      {
+        nombreToken,
+        tiempoIlimitado,
+        tiempoExpiracion,
+        tiempoExpiracionHoras: 87,
+        numeroMensajes,
+      },
+      {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.getToken()}`,
+        }),
+      }
+    );
+  }
+  listTokens() {
+    return this.http.get<any>(`${this.baseUrl}/ListToken`, {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`,
+      }),
+    });
+  }
   check(): boolean {
     return this.getToken() ? true : false;
     // return this.getToken() == this.testToken;
