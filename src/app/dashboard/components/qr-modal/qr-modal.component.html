@@ -20,7 +20,7 @@
           formControlName="tiempoExpiracion"
           [matDatepicker]="picker"
         />
-        <mat-hint>MM/DD/YYYY</mat-hint>
+        
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"
@@ -28,9 +28,11 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-slide-toggle formControlName="tiempoIlimitado">Limitar Tiempo de Expiración</mat-slide-toggle>
-      <button mat-button [disabled]="qrGenerationForm.invalid" type="submit">
+      <br>
+      <button style="font-weight: 680;" mat-raised-button color="primary" [disabled]="qrGenerationForm.invalid" type="submit">
         Generar Qr
       </button>
+      <br>
     </form>
     <div
       class="border rounded-lg p-2 w-56 h-56 items-center justify-center flex"

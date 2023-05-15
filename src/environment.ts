@@ -1,4 +1,4 @@
-const domain = `9271-200-1-182-131.ngrok-free.app`
+const domain = `localhost:3001`
 
-export const apiUrl = `https://${domain}`;
+export const apiUrl = `http://${domain}`;
 export const socketUrl = `ws://${domain}`;
