@@ -28,6 +28,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { DashboardFilterComponent } from './dashboard-filter/dashboard-filter.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
     LoginComponent,
     DashboardComponent,
     QrModalComponent,
+    DashboardFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,11 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
         canActivate: [NoAuthGuard],
         path: 'login',
         component: LoginComponent,
+      },
+      {
+        canActivate: [AuthGuard],
+        path: 'dashboardFilter',
+        component: DashboardFilterComponent,
       },
     ]),
     BrowserAnimationsModule,

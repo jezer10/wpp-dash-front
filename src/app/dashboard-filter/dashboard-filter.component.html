@@ -1,0 +1,124 @@
+<div class="h-screen flex flex-col">
+    <div class="py-4 px-4 flex items-center justify-between border">
+      <button mat-icon-button (click)="isMenuOpen = !isMenuOpen">
+        <mat-icon>{{ isMenuOpen ? "menu_open" : "menu" }}</mat-icon>
+      </button>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>person</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>dialpad</mat-icon>
+            <span>Perfil</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar Sesión</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    <div class="h-full w-full flex relative">
+      <div class="border border-t-0 flex-none">
+        <ul class="flex flex-col">
+          <li *ngFor="let route of routes">
+            <a
+              [routerLink]="[route.path]"
+              class="px-7 py-3 hover:bg-gray-200 flex items-center gap-2 font-medium"
+              [ngClass]="isNameOpen==route.name ? 'statusColorSelect':''"
+            >
+              <mat-icon>{{ route.icon }}</mat-icon>
+              <div *ngIf="isMenuOpen" class="whitespace-nowrap">
+                {{ route.name }}
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="h-full overflow-auto px-4 pt-8">
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2 py-2">
+            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
+            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
+            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
+            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
+
+            
+          </div>
+          <br>
+          <table mat-table [dataSource]="listTable" class="mat-elevation-z8">
+  
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+          
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef> N° </th>
+              <td mat-cell *matCellDef="let element;let i = index;"> {{i+1}} </td>
+            </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="nombreUsuario">
+              <th mat-header-cell *matHeaderCellDef> Usuario </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombreUsuario}} </td>
+            </ng-container>
+          
+            <!-- Weight Column -->
+            <ng-container matColumnDef="tiempoIlimitado">
+              <th mat-header-cell *matHeaderCellDef> Tiempo Ilimitado </th>
+  
+              <td mat-cell *matCellDef="let element">
+                
+                  <svg height="14" width="14">
+                    <circle cx="7" cy="7" r="7" [ngClass]="element.tiempoIlimitado ? 'statusOn':'statuOff'" />
+                  </svg>
+                
+                </td>
+  
+  
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="tiempoExpiracion">
+              <th mat-header-cell *matHeaderCellDef> Tiempo Expiración </th>
+              <td mat-cell *matCellDef="let element"> {{element.tiempoExpiracion.split('T')[0]}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="numeroMensajes">
+              <th mat-header-cell *matHeaderCellDef> Numero de mensajes </th>
+              <td mat-cell *matCellDef="let element"> {{element.numeroMensajes}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="nombreToken">
+              <th mat-header-cell *matHeaderCellDef> Nombre Qr </th>
+              <td mat-cell *matCellDef="let element"> {{element.nombreToken}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="token" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef> Token </th>
+              <td mat-cell *matCellDef="let element"> {{element.token}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="acciones" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef> Copiar token </th>
+              <td mat-cell *matCellDef="let element;let i = index;"> 
+                <button mat-stroked-button color="primary">Copiar</button>
+              </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="accionesDelete" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef> Eliminar token</th>
+              <td mat-cell *matCellDef="let element;let i = index;"> 
+                <button mat-stroked-button color="warn">Eliminar</button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+  
+  
+        </div>
+      </div>
+        
+    </div>
+  </div>
+  

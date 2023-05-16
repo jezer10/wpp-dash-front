@@ -26,6 +26,7 @@
           <a
             [routerLink]="[route.path]"
             class="px-7 py-3 hover:bg-gray-200 flex items-center gap-2 font-medium"
+            [ngClass]="isNameOpen==route.name ? 'statusColorSelect':''"
           >
             <mat-icon>{{ route.icon }}</mat-icon>
             <div *ngIf="isMenuOpen" class="whitespace-nowrap">
@@ -84,7 +85,7 @@
           <!-- Symbol Column -->
           <ng-container matColumnDef="tiempoExpiracion">
             <th mat-header-cell *matHeaderCellDef> Tiempo Expiración </th>
-            <td mat-cell *matCellDef="let element"> {{element.tiempoExpiracion.split('T')[0]}} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.tiempoIlimitado ? '-':  element.tiempoExpiracion.split('T')[0]}} </td>
           </ng-container>
           <!-- Symbol Column -->
           <ng-container matColumnDef="numeroMensajes">
@@ -105,10 +106,16 @@
           <ng-container matColumnDef="acciones" style="display: flex;">
             <th mat-header-cell *matHeaderCellDef> Copiar token </th>
             <td mat-cell *matCellDef="let element;let i = index;"> 
-              <button mat-stroked-button (click)="copyToken(element.token,i)" color="primary">Copiar token</button>
+              <button mat-stroked-button (click)="copyToken(element.token,i)" color="primary">Copiar</button>
             </td>
           </ng-container>
-
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="accionesDelete" style="display: flex;">
+            <th mat-header-cell *matHeaderCellDef> Eliminar token</th>
+            <td mat-cell *matCellDef="let element;let i = index;"> 
+              <button mat-stroked-button (click)="deleteToken(element.nombreToken)" color="warn">Eliminar</button>
+            </td>
+          </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>

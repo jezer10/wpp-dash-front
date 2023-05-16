@@ -91,6 +91,17 @@ export class AuthService {
       }),
     });
   }
+  deleteToken(nombreToken: string) { 
+    return this.http.post<any>(`${this.baseUrl}/DeleteToken`,
+    {
+      nombreToken
+    },
+    {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`,
+      }),
+    });
+  }
   check(): boolean {
     return this.getToken() ? true : false;
     // return this.getToken() == this.testToken;

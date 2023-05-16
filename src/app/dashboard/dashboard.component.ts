@@ -13,23 +13,24 @@ import { Clipboard } from '@angular/cdk/clipboard';
 })
 export class DashboardComponent implements OnInit {
   config = new MatSnackBarConfig();
-  isMenuOpen: boolean = false;
+  isMenuOpen: boolean = true;
   qrImageData: string = '';
   dataToParse: string = '';
   generatedToken: string = '';
-  displayedColumns:any = ['position','nombreUsuario','tiempoIlimitado','tiempoExpiracion','numeroMensajes','nombreToken','token','acciones'];
+  displayedColumns:any = ['position','nombreUsuario','tiempoIlimitado','tiempoExpiracion','numeroMensajes','nombreToken','token','acciones','accionesDelete'];
   tokens: any = [];
-  
+  isNameOpen:string="Generar Whatsapp Token"
+
   routes = [
     {
-      name: 'Inicio',
+      name: 'Generar Whatsapp Token',
       path: '/',
-      icon: 'home',
+      icon: 'vpn_key',
     },
     {
-      name: 'Generar Whatsapp Token',
-      path: '/wpp',
-      icon: 'phone',
+      name: 'Dashboard',
+      path: '/dashboardFilter',
+      icon: 'dashboard',
     },
   ];
   constructor(
@@ -39,7 +40,8 @@ export class DashboardComponent implements OnInit {
     private clipboard: Clipboard
   ) {
     
-    this.config.verticalPosition = 'top';
+    this.config.verticalPosition = 'top'
+    this.config.duration=2400
   }
 
   ngOnInit(): void {
@@ -88,12 +90,32 @@ export class DashboardComponent implements OnInit {
       });
   }
   copyToken(token: string,position:number) {
-    console.log(token)
-    console.log(position)
+
     this.clipboard.copy(token)
     this._snackbar.open('Se copio el token en el portapapeles...',undefined,this.config);
 
   }
+  deleteToken(token:string) {
+
+    this.authService.deleteToken(token).subscribe(
+      ({
+        responseExSave: {
+            status,
+            message 
+          },
+      }) => {
+        console.log(message);
+        console.log(status)
+        if(status==200) {
+          this.getTokenList()
+        }
+
+        this._snackbar.open(message,undefined,this.config);
+
+      }
+    );
+  }
+    
   showToken() {
     this.dataToParse = this.generatedToken;
   }
