@@ -13,7 +13,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 550px; /* ajusta el ancho máximo según tus necesidades */
+    max-width: 250px; /* ajusta el ancho máximo según tus necesidades */
 }
 .statusOn{
     fill: #6dd400;

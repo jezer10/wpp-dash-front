@@ -83,11 +83,12 @@ export class DashboardFilterComponent implements OnInit {
         },
       }) => {
         console.log(data)
+
         this.listTable = data[0] ?? []
         this.listTable.forEach((element:any) => {
 
           element.fechaEnvio=this.changeFormatDate(element.fechaEnvio)
-          element.mensaje=this.unidecodeToString(element.mensaje)
+          element.mensaje=JSON.parse(element.mensaje)
 
         });
         this.dataSource = new MatTableDataSource(this.listTable);
@@ -120,10 +121,7 @@ export class DashboardFilterComponent implements OnInit {
     return convertedDate.toLocaleString('en-US', options)
   }
   unidecodeToString(message:any){
- 
-    const unicodeArraytwo = message.split(' ');
-    const text = unicodeArraytwo.map((unicode:any) => String.fromCharCode(parseInt(unicode.substring(2), 16))).join('');
-    return text
+    return JSON.parse(message);
   }
 
 }
