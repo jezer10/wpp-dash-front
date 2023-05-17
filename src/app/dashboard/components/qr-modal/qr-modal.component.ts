@@ -16,6 +16,7 @@ interface DialogData {
 })
 export class QrModalComponent implements OnInit {
   qrImageData: string = '';
+  myIpAddress ='Not found ip'
   public qrGenerationForm = new FormGroup({
     nombreToken: new FormControl('', [Validators.required]),
     tiempoIlimitado: new FormControl(false, [Validators.required]),
@@ -30,8 +31,18 @@ export class QrModalComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.connectSocket(this.dialogRef);
+    this.getMyIp()
   }
+  getMyIp(){
 
+    this.authService.getMyIp().subscribe(
+      (data:any) => {
+        this.myIpAddress=data['ip']
+        console.log( this.myIpAddress)
+      }
+    );
+  
+  }
   closeDialog(data: any = {}) {
     this.dialogRef.close(data);
   }
@@ -45,7 +56,8 @@ export class QrModalComponent implements OnInit {
           nombreToken?.trim().toLowerCase().replaceAll(' ', '_') ?? '',
           tiempoIlimitado ?? false,
           tiempoExpiracion ?? new Date(),
-          numeroMensajes ?? 0
+          numeroMensajes ?? 0,
+          this.myIpAddress
         )
         .subscribe(({ responseExSave: { codigoQr, error } }) => {
           if (error) {

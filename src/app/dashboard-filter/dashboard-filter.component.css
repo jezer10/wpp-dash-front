@@ -1,7 +1,15 @@
 .mat-elevation-z8 {
     width: 100%;
   }
-.mat-column-token{
+  
+.mat-column-mensaje{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 550px;
+    max-width: 550px; /* ajusta el ancho máximo según tus necesidades */
+}
+.mat-column-errorMsj{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../login/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   qrImageData: string = '';
   dataToParse: string = '';
   generatedToken: string = '';
+  myIpAddress: string ='Not found ip'
   displayedColumns:any = ['position','nombreUsuario','tiempoIlimitado','tiempoExpiracion','numeroMensajes','nombreToken','token','acciones','accionesDelete'];
   tokens: any = [];
   isNameOpen:string="Generar Whatsapp Token"
@@ -43,11 +44,13 @@ export class DashboardComponent implements OnInit {
     this.config.verticalPosition = 'top'
     this.config.duration=2400
   }
+  
 
   ngOnInit(): void {
     this.getTokenList()
   }
-
+ 
+  
   getTokenList(){
     this.authService.listTokens().subscribe(
       ({

@@ -1,0 +1,69 @@
+<mat-card >
+    <mat-card-content>
+
+      <div style="display: flex; flex-wrap: wrap;">
+        <h2>Detalle del mensaje</h2>
+        <br/>
+        
+      </div>
+
+      <div >
+        <table mat-table [dataSource]="listArrMessage" class="mat-elevation-z8" style="overflow-y: auto;">
+  
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> N° </th>
+            <td mat-cell *matCellDef="let element;let i = index;"> {{i+1}} </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="nombreToken">
+            <th mat-header-cell *matHeaderCellDef> Nombre Token </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombreToken}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="estadoToken">
+            <th mat-header-cell *matHeaderCellDef>Estado de Token</th>
+            <td mat-cell *matCellDef="let element">
+              <svg height="14" width="14">
+                <circle cx="7" cy="7" r="7" [ngClass]="element.estadoToken ? 'statusOn':'statuOff'" />
+              </svg>
+            </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef> N° Telefono </th>
+            <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+          </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="mensaje">
+            <th mat-header-cell *matHeaderCellDef> Mensaje enviado</th>
+            <td mat-cell *matCellDef="let element"> {{element.mensaje}} </td>
+
+          </ng-container>
+        
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="fechaEnvio" style="display: flex;">
+            <th mat-header-cell *matHeaderCellDef> Fecha de envio </th>
+            <td mat-cell *matCellDef="let element"> {{ element.fechaEnvio}} </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="estadoMensaje" style="display: flex;">
+            <th mat-header-cell *matHeaderCellDef>Estado del mensaje</th>
+            <td mat-cell *matCellDef="let element">
+              <svg height="14" width="14">
+                <circle cx="7" cy="7" r="7" [ngClass]="element.estadoMensaje ? 'statusOn':'statuOff'" />
+              </svg>
+            </td>
+          </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="errorMsj" style="display: flex;">
+            <th mat-header-cell *matHeaderCellDef> Detalle del mensaje</th>
+            <td mat-cell *matCellDef="let element"> {{element.errorMsj =='-' || element.errorMsj ==null ? 'Enviado Correctamente' : element.errorMsj }} </td>
+          </ng-container>
+          
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  

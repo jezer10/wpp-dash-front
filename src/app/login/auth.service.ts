@@ -66,7 +66,8 @@ export class AuthService {
     nombreToken: string,
     tiempoIlimitado: boolean,
     tiempoExpiracion: Date,
-    numeroMensajes: number
+    numeroMensajes: number,
+    ipAddress:string
   ) {
     return this.http.post<any>(
       `${this.baseUrl}/Login`,
@@ -76,6 +77,7 @@ export class AuthService {
         tiempoExpiracion,
         tiempoExpiracionHoras: 87,
         numeroMensajes,
+        ipAddress
       },
       {
         headers: new HttpHeaders({
@@ -102,6 +104,20 @@ export class AuthService {
       }),
     });
   }
+  listTokenHistorial(nombreToken: string,fechaInicio: any,fechaFin: any,telefono: any) { 
+    return this.http.post<any>(`${this.baseUrl}/ListTokenHistorialFilter`,
+    {
+      nombreToken,
+      fechaInicio,
+      fechaFin,
+      telefono
+    },
+    {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`,
+      }),
+    });
+  }
   check(): boolean {
     return this.getToken() ? true : false;
     // return this.getToken() == this.testToken;
@@ -109,6 +125,9 @@ export class AuthService {
   }
   getToken(): string {
     return localStorage.getItem('token') ?? '';
+  }
+  getMyIp(){
+    return this.http.get<any>(`https://api.ipify.org/?format=json`);
   }
 
   setToken(token: string = '') {

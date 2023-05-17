@@ -29,6 +29,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DashboardFilterComponent } from './dashboard-filter/dashboard-filter.component';
+import { DetailFilterComponent } from './dashboard-filter/components/detail-filter/detail-filter.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { DashboardFilterComponent } from './dashboard-filter/dashboard-filter.co
     DashboardComponent,
     QrModalComponent,
     DashboardFilterComponent,
+    DetailFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import { DashboardFilterComponent } from './dashboard-filter/dashboard-filter.co
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
-    ClipboardModule
+    ClipboardModule,
+    MatPaginatorModule
   ],
   providers: [
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },

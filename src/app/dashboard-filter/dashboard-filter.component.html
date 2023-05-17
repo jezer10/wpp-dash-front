@@ -38,16 +38,54 @@
       </div>
       <div class="h-full overflow-auto px-4 pt-8">
         <div class="flex flex-col">
-          <div class="flex items-center gap-2 py-2">
-            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
-            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
-            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
-            <button mat-raised-button color="primary" style="padding:22px" >Generar QR</button>
+          <div class="flex items-center gap-2 py-2" style="flex-wrap: wrap;
+          align-items: flex-start;">
+            <mat-form-field >
+              <mat-label>Fecha Inicio</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                [formControl]="fechaInicio"
+              />
+              
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field >
+              <mat-label>Fecha Fin</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                [formControl]="fechaFin"
+              />
+              
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
 
+            <mat-form-field class="example-full-width">
+              <mat-label>Nombre Token</mat-label>
+              <input matInput [(ngModel)]="nombreToken" >
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <mat-label>Telefono</mat-label>
+              <input type="number" matInput [(ngModel)]="telefonoFilter" >
+            </mat-form-field>
+            <br>
+            <button mat-fab extended color="primary" (click)="filter()">
+              <mat-icon>filter_list</mat-icon>
+              Filtrar datos
+            </button>
             
           </div>
           <br>
-          <table mat-table [dataSource]="listTable" class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
   
             <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
@@ -57,65 +95,68 @@
               <td mat-cell *matCellDef="let element;let i = index;"> {{i+1}} </td>
             </ng-container>
             <!-- Name Column -->
-            <ng-container matColumnDef="nombreUsuario">
-              <th mat-header-cell *matHeaderCellDef> Usuario </th>
-              <td mat-cell *matCellDef="let element"> {{element.nombreUsuario}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="tiempoIlimitado">
-              <th mat-header-cell *matHeaderCellDef> Tiempo Ilimitado </th>
-  
-              <td mat-cell *matCellDef="let element">
-                
-                  <svg height="14" width="14">
-                    <circle cx="7" cy="7" r="7" [ngClass]="element.tiempoIlimitado ? 'statusOn':'statuOff'" />
-                  </svg>
-                
-                </td>
-  
-  
-            </ng-container>
-          
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="tiempoExpiracion">
-              <th mat-header-cell *matHeaderCellDef> Tiempo Expiración </th>
-              <td mat-cell *matCellDef="let element"> {{element.tiempoExpiracion.split('T')[0]}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="numeroMensajes">
-              <th mat-header-cell *matHeaderCellDef> Numero de mensajes </th>
-              <td mat-cell *matCellDef="let element"> {{element.numeroMensajes}} </td>
-            </ng-container>
-            <!-- Symbol Column -->
             <ng-container matColumnDef="nombreToken">
-              <th mat-header-cell *matHeaderCellDef> Nombre Qr </th>
+              <th mat-header-cell *matHeaderCellDef> Nombre Token </th>
               <td mat-cell *matCellDef="let element"> {{element.nombreToken}} </td>
             </ng-container>
             <!-- Symbol Column -->
-            <ng-container matColumnDef="token" style="display: flex;">
-              <th mat-header-cell *matHeaderCellDef> Token </th>
-              <td mat-cell *matCellDef="let element"> {{element.token}} </td>
+            <ng-container matColumnDef="estadoToken">
+              <th mat-header-cell *matHeaderCellDef>Estado de Token</th>
+              <td mat-cell *matCellDef="let element">
+                <svg height="14" width="14">
+                  <circle cx="7" cy="7" r="7" [ngClass]="element.estadoToken ? 'statusOn':'statuOff'" />
+                </svg>
+              </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="telefono">
+              <th mat-header-cell *matHeaderCellDef> N° Telefono </th>
+              <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+            </ng-container>
+            <!-- Weight Column -->
+            <ng-container matColumnDef="mensaje">
+              <th mat-header-cell *matHeaderCellDef> Mensaje enviado</th>
+              <td mat-cell *matCellDef="let element"> {{element.mensaje}} </td>
+
+            </ng-container>
+          
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="fechaEnvio" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef> Fecha de envio </th>
+              <td mat-cell *matCellDef="let element"> {{ element.fechaEnvio}} </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="estadoMensaje" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef>Estado del mensaje</th>
+              <td mat-cell *matCellDef="let element">
+                <svg height="14" width="14">
+                  <circle cx="7" cy="7" r="7" [ngClass]="element.estadoMensaje ? 'statusOn':'statuOff'" />
+                </svg>
+              </td>
+            </ng-container>
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="errorMsj" style="display: flex;">
+              <th mat-header-cell *matHeaderCellDef> Detalle del mensaje</th>
+              <td mat-cell *matCellDef="let element"> {{element.errorMsj =='-' || element.errorMsj ==null ? 'Enviado Correctamente' : element.errorMsj }} </td>
             </ng-container>
             <!-- Symbol Column -->
             <ng-container matColumnDef="acciones" style="display: flex;">
-              <th mat-header-cell *matHeaderCellDef> Copiar token </th>
-              <td mat-cell *matCellDef="let element;let i = index;"> 
-                <button mat-stroked-button color="primary">Copiar</button>
-              </td>
+              <th mat-header-cell *matHeaderCellDef>Ver detalle del mensaje</th>
+
+              <td mat-cell *matCellDef="let element">
+                 
+                 <button mat-mini-fab matTooltip="Warn" (click)="detail(element)" color="primary" aria-label="Example mini fab with a heart icon">
+                  <mat-icon>remove_red_eye</mat-icon>
+                </button>
+                </td>
             </ng-container>
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="accionesDelete" style="display: flex;">
-              <th mat-header-cell *matHeaderCellDef> Eliminar token</th>
-              <td mat-cell *matCellDef="let element;let i = index;"> 
-                <button mat-stroked-button color="warn">Eliminar</button>
-              </td>
-            </ng-container>
+            
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
   
-  
+          <mat-paginator [pageSizeOptions]="[12, 20, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
         </div>
       </div>
         

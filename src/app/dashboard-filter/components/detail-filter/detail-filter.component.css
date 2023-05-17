@@ -1,0 +1,30 @@
+.mat-elevation-z8 {
+    width: 100%;
+    
+}
+
+.mat-column-mensaje{
+    overflow: auto;
+
+    max-width: 650px; /* ajusta el ancho máximo según tus necesidades */
+}
+.mat-column-errorMsj{
+    overflow: auto;
+   
+    max-width: 650px; /* ajusta el ancho máximo según tus necesidades */
+}
+.statusOn{
+    fill: #6dd400;
+
+}
+.statuOff{
+    fill: #b2b4b6;
+
+}
+.mat-mdc-header-cell {
+    background-color: #393939 !important;
+    color: white;
+  }
+  .statusColorSelect{
+    background-color: #e5e7eb;
+}
