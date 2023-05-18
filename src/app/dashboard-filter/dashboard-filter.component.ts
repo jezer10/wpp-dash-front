@@ -86,10 +86,7 @@ export class DashboardFilterComponent implements OnInit {
 
         this.listTable = data[0] ?? []
         this.listTable.forEach((element:any) => {
-
           element.fechaEnvio=this.changeFormatDate(element.fechaEnvio)
-          element.mensaje=JSON.parse(element.mensaje)
-
         });
         this.dataSource = new MatTableDataSource(this.listTable);
 
