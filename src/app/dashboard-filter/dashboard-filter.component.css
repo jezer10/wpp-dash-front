@@ -7,8 +7,15 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 550px;
-    max-width: 550px; /* ajusta el ancho máximo según tus necesidades */
+    max-width: 500px; /* ajusta el ancho máximo según tus necesidades */
 }
+.mat-column-fechaEnvio{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 500px; /* ajusta el ancho máximo según tus necesidades */
+}
+
 .mat-column-errorMsj{
     overflow: hidden;
     text-overflow: ellipsis;

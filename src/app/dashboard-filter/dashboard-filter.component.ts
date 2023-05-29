@@ -112,10 +112,18 @@ export class DashboardFilterComponent implements OnInit {
     const convertedDate = new Date(dateObj.getTime() );
     const options = {
       hour12: true,
-      timeZone: 'America/Lima' // Peru's timezone (UTC-5)
+      timeZone: 'America/Lima', // Peru's timezone (UTC-5)
+      
     };
+    const formattedDate = convertedDate.toLocaleString('en-US', options);
 
-    return convertedDate.toLocaleString('en-US', options)
+    // Obtener los componentes de la fecha
+    const [month, day, year, time] = formattedDate.split(', ')[0].split('/');
+    const [hour, minute, second, period] = formattedDate.split(', ')[1].split(':');
+
+    // Formatear la fecha en el formato deseado "dd/mm/yyyy, hh:mm:ss AM/PM"
+    const formattedDateString = `${day}/${month}/${year}, ${hour}:${minute}:${second}`;
+    return formattedDateString
   }
   unidecodeToString(message:any){
     return JSON.parse(message);
